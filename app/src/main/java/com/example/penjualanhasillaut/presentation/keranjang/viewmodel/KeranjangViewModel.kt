@@ -21,6 +21,8 @@ class KeranjangViewModel @Inject constructor(
 
     private val _getKeranjang = MutableLiveData<Result<GetKeranjangResponse>>()
 
+    private val _deleteKeranjangById = MutableLiveData<Result<GeneralResponse>>()
+
     private val _deleteKeranjang = MutableLiveData<Result<GeneralResponse>>()
 
     init {
@@ -72,4 +74,11 @@ class KeranjangViewModel @Inject constructor(
     }
 
     fun getDeleteKeranjang(): LiveData<Result<GeneralResponse>> = _deleteKeranjang
+
+    fun fetchDeleteKeranjangById(id: Int) = viewModelScope.launch {
+        val delete = repository.deleteKeranjangById(id)
+        _deleteKeranjangById.postValue(delete)
+    }
+
+    fun getDeleteKeranjangById(): LiveData<Result<GeneralResponse>> = _deleteKeranjangById
 }

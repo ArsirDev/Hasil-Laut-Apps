@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.penjualanhasillaut.data.dto.DataGetKeranjangItem
 import com.example.penjualanhasillaut.databinding.KeranjangItemLayoutBinding
+import com.example.penjualanhasillaut.utils.setOnClickListenerWithDebounce
 
 class KeranjangAdapter: RecyclerView.Adapter<KeranjangViewHolder>() {
 
@@ -33,12 +34,27 @@ class KeranjangAdapter: RecyclerView.Adapter<KeranjangViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: KeranjangViewHolder, position: Int) {
-        holder.bind(differ.currentList[position])
+        holder.apply {
+            bind(differ.currentList[position].also { item ->
+                  holder.binding.ivDelete.setOnClickListenerWithDebounce {
+                    onItemClickListener?.let { stored ->
+                        stored(item.id)
+                    }
+                }
+            })
+        }
     }
 
     override fun getItemCount(): Int {
         return differ.currentList.size
     }
+
+    private var onItemClickListener: ((Int) -> Unit)? = null
+
+    fun setOnItemClickListener(listener: (Int) -> Unit) {
+        onItemClickListener = listener
+    }
+
 
     companion object {
         fun instance() = KeranjangAdapter()

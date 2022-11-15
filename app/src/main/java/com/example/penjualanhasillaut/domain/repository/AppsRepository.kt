@@ -8,7 +8,9 @@ import com.example.penjualanhasillaut.data.dto.GetKeranjangResponse
 import com.example.penjualanhasillaut.data.dto.InputResponse
 import com.example.penjualanhasillaut.data.dto.InvoiceResponse
 import com.example.penjualanhasillaut.data.dto.SearchResponse
+import com.example.penjualanhasillaut.domain.model.Keranjang
 import com.example.penjualanhasillaut.utils.Result
+import kotlinx.coroutines.flow.Flow
 import retrofit2.http.Field
 import java.io.File
 
@@ -75,5 +77,8 @@ interface AppsRepository {
 
     suspend fun getKeranjang(): Result<GetKeranjangResponse>
 
+    suspend fun deleteKeranjangById(id: Int): Result<GeneralResponse>
+
     suspend fun deleteKeranjang(): Result<GeneralResponse>
+
 }

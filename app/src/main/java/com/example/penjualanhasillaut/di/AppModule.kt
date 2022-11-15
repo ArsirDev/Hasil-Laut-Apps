@@ -1,9 +1,12 @@
 package com.example.penjualanhasillaut.di
 
+import android.app.Application
 import android.content.Context
+import androidx.room.Room
 import com.example.penjualanhasillaut.BuildConfig
 import com.example.penjualanhasillaut.constant.AUTH.AUTH_HEADER
 import com.example.penjualanhasillaut.data.api.ApiInterface
+import com.example.penjualanhasillaut.data.local.KeranjangDatabase
 import com.example.penjualanhasillaut.data.repository.AppsRepositoryImpl
 import com.example.penjualanhasillaut.domain.repository.AppsRepository
 import com.example.penjualanhasillaut.utils.ResponseHandler

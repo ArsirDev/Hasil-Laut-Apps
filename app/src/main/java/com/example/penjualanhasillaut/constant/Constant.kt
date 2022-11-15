@@ -10,6 +10,7 @@ object EndPoint {
     const val TRANSAKSI = "api/transaksi"
     const val SET_KERANJANG = "api/set-cart"
     const val GET_KERANJANG = "api/get-cart"
+    const val DELETE_KERANJANG_BY_ID = "api/delete-item-cart"
     const val DELETE_KERANJANG = "api/delete-cart"
 }
 
@@ -41,6 +42,8 @@ object PASSINGDATA {
 object STATUS {
     const val PENYALUR = "Penyalur"
     const val KONSUMEN = "Konsumen"
+    const val PREMIUM = "Premium"
+    const val REGULAR = "Regular"
 }
 
 object TRANSAKSI {

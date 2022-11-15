@@ -1,6 +1,7 @@
 package com.example.penjualanhasillaut.data.api
 
 import com.example.penjualanhasillaut.constant.EndPoint.DELETE_KERANJANG
+import com.example.penjualanhasillaut.constant.EndPoint.DELETE_KERANJANG_BY_ID
 import com.example.penjualanhasillaut.constant.EndPoint.DETAIL
 import com.example.penjualanhasillaut.constant.EndPoint.GET_KERANJANG
 import com.example.penjualanhasillaut.constant.EndPoint.INPUT
@@ -108,6 +109,11 @@ interface ApiInterface {
 
     @GET(GET_KERANJANG)
     suspend fun getKeranjang(): Response<GetKeranjangResponse>
+
+    @GET(DELETE_KERANJANG_BY_ID)
+    suspend fun deleteKeranjangById(
+        @Query("id") Id: Int
+    ): Response<GeneralResponse>
 
     @GET(DELETE_KERANJANG)
     suspend fun deleteKeranjang(): Response<GeneralResponse>

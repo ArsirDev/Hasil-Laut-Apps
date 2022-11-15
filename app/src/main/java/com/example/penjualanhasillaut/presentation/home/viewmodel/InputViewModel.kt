@@ -31,16 +31,9 @@ class InputViewModel @Inject constructor(
         qty: String,
         price: String,
         type: String,
-        image: File?,
+        image: File,
         description: String
     ) = viewModelScope.launch {
-        if (
-            product_name.isEmpty() || qty.isEmpty()|| price.isEmpty()||image == null || description.isEmpty()
-        ) {
-            _uiEvent.emit("Field tidak boleh kosong")
-            return@launch
-        }
-
         _input.postValue(Result.Loading())
 
         val input = repository.getInput(

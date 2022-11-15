@@ -64,7 +64,7 @@
             android:id="@+id/tv_total_prize"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Total Harga: Rp.200.000"
+            android:text="Total Harga: Rp.0"
             android:textColor="@color/white"
             android:textSize="21sp"
             android:textStyle="bold"/>

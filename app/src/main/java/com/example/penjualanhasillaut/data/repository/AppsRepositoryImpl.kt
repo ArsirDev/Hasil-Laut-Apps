@@ -8,6 +8,7 @@ import com.example.penjualanhasillaut.data.dto.GeneralResponse
 import com.example.penjualanhasillaut.data.dto.GetKeranjangResponse
 import com.example.penjualanhasillaut.data.dto.InputResponse
 import com.example.penjualanhasillaut.data.dto.InvoiceResponse
+import com.example.penjualanhasillaut.data.local.KeranjangDao
 import com.example.penjualanhasillaut.domain.repository.AppsRepository
 import com.example.penjualanhasillaut.utils.ResponseHandler
 import com.example.penjualanhasillaut.utils.Result
@@ -143,6 +144,10 @@ class AppsRepositoryImpl @Inject constructor(
 
     override suspend fun getKeranjang(): Result<GetKeranjangResponse> = responseHandler.handleResponse {
         apiService.getKeranjang()
+    }
+
+    override suspend fun deleteKeranjangById(id: Int): Result<GeneralResponse> = responseHandler.handleResponse {
+        apiService.deleteKeranjangById(id)
     }
 
     override suspend fun deleteKeranjang(): Result<GeneralResponse> = responseHandler.handleResponse {

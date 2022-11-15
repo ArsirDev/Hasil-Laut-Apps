@@ -1,12 +1,11 @@
 package com.example.penjualanhasillaut.presentation.home.fragment
 
 import android.Manifest
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.text.format.Formatter
-import android.util.Log
 import android.view.View
+import android.widget.RadioButton
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -19,6 +18,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.penjualanhasillaut.R
 import com.example.penjualanhasillaut.constant.MESSAGE.STATUS_ERROR
 import com.example.penjualanhasillaut.constant.MESSAGE.STATUS_SUCCESS
+import com.example.penjualanhasillaut.constant.STATUS
 import com.example.penjualanhasillaut.data.dto.InputResponse
 import com.example.penjualanhasillaut.databinding.FragmentInputProductBinding
 import com.example.penjualanhasillaut.presentation.home.viewmodel.InputViewModel
@@ -142,24 +142,56 @@ class InputProductFragment : Fragment(R.layout.fragment_input_product) {
                 }
             }
 
-            binding.btnSave.setOnClickListener {
+            binding.btnSave.setOnClickListenerWithDebounce {
                 val productName = binding.etNameProduct.text.toString().trim()
                 val qty = binding.etQty.text.toString().trim()
                 val price = binding.etPrice.text.toString().trim()
-                val type = binding.etType.text.toString().trim()
+                val checkRbType = binding.rgProductType.checkedRadioButtonId
                 val image = newImage
                 val description = binding.etDescription.text.toString().trim()
 
-                viewModel.setInput(
+                onValidation(
                     productName,
                     qty,
                     price,
-                    type,
+                    checkRbType,
                     image,
                     description
                 )
             }
         }
+    }
+
+    private fun onValidation(
+        productName: String,
+        qty: String,
+        price: String,
+        checkRbType: Int,
+        image: File?,
+        description: String
+    ) {
+        if (
+            productName.isEmpty() || qty.isEmpty() || price.isEmpty() || checkRbType <= 0 || image == null || description.isEmpty()
+        ) {
+            snackbar(binding.root, "Field tidak boleh kosong", STATUS_ERROR)
+            return
+        }
+
+        val rb: RadioButton = requireActivity().findViewById(checkRbType)
+        val type = if(rb.text.toString() == STATUS.PREMIUM) {
+            STATUS.PREMIUM
+        } else {
+            STATUS.REGULAR
+        }
+
+        viewModel.setInput(
+            productName,
+            qty,
+            price,
+            type,
+            image,
+            description
+        )
     }
 
     private fun initInstance(view: View) {

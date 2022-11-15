@@ -60,15 +60,25 @@
             android:id="@+id/tv_prize"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Rp.200.000"
-            android:gravity="end"
-            android:textStyle="bold"
-            android:textColor="@color/white"
             android:layout_marginStart="16dp"
+            android:gravity="end"
+            android:text="Rp.200.000"
+            android:layout_marginEnd="16dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/iv_barang"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/iv_delete"
             app:layout_constraintStart_toEndOf="@+id/linearLayout5"
             app:layout_constraintTop_toTopOf="@+id/iv_barang" />
+
+        <ImageView
+            android:id="@+id/iv_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_prize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_prize"
+            app:srcCompat="@drawable/ic_delete" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

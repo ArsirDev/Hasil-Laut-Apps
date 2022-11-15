@@ -8,7 +8,7 @@ import com.example.penjualanhasillaut.utils.loadImage
 import java.util.*
 
 class KeranjangViewHolder(
-    private val binding: KeranjangItemLayoutBinding
+    val binding: KeranjangItemLayoutBinding
 ): RecyclerView.ViewHolder(binding.root) {
     fun bind(dataGetKeranjangItem: DataGetKeranjangItem) {
         with(binding) {

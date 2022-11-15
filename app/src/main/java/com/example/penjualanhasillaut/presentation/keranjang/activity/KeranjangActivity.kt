@@ -12,12 +12,15 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.penjualanhasillaut.constant.MESSAGE.STATUS_ERROR
+import com.example.penjualanhasillaut.constant.MESSAGE.STATUS_SUCCESS
 import com.example.penjualanhasillaut.constant.SESSION
 import com.example.penjualanhasillaut.constant.TRANSAKSI
 import com.example.penjualanhasillaut.data.dto.DataGetKeranjangItem
 import com.example.penjualanhasillaut.data.dto.GeneralResponse
 import com.example.penjualanhasillaut.data.dto.GetKeranjangResponse
 import com.example.penjualanhasillaut.databinding.ActivityKeranjangBinding
+import com.example.penjualanhasillaut.presentation.detail.activity.DetailActivity
+import com.example.penjualanhasillaut.presentation.home.activity.HomeActivity
 import com.example.penjualanhasillaut.presentation.keranjang.adapter.KeranjangAdapter
 import com.example.penjualanhasillaut.presentation.keranjang.viewmodel.KeranjangViewModel
 import com.example.penjualanhasillaut.presentation.transaksi.activity.TransaksiActivity
@@ -29,6 +32,7 @@ import com.example.penjualanhasillaut.utils.setOnClickListenerWithDebounce
 import com.example.penjualanhasillaut.utils.showView
 import com.example.penjualanhasillaut.utils.snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -48,8 +52,16 @@ class KeranjangActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         initInstance()
         setContentView(binding.root)
+        initViews()
         initLaunch()
         initAdapter()
+    }
+
+    private fun initViews() {
+        binding.ivBack.setOnClickListenerWithDebounce {
+            startActivity(Intent(this, HomeActivity::class.java))
+            finishAffinity()
+        }
     }
 
     private fun initAdapter() {
@@ -60,6 +72,9 @@ class KeranjangActivity : AppCompatActivity() {
                 this.addItemDecoration(GridCardMargin(16))
                 ViewCompat.setNestedScrollingEnabled(this, true)
             }
+            adapter.setOnItemClickListener { id ->
+                viewModel.fetchDeleteKeranjangById(id)
+            }
         }
     }
 
@@ -69,6 +84,9 @@ class KeranjangActivity : AppCompatActivity() {
         }
         obseverDeleteKeranjang?.let {
             viewModel.getDeleteKeranjang().observe(this, it)
+        }
+        observerDeleteKeranjangById?.let {
+            viewModel.getDeleteKeranjangById().observe(this, it)
         }
     }
 
@@ -86,6 +104,39 @@ class KeranjangActivity : AppCompatActivity() {
                                 keranjangAdapter.differ.submitList(item)
                                 initView(item)
                             }
+                        }
+                        is Result.Error -> {
+                            binding.pbLoading.removeView()
+                            result.message?.let { msg ->
+                                snackbar(binding.root, msg, STATUS_ERROR)
+                            } ?: result.data?.message?.let { msg ->
+                                snackbar(binding.root, msg, STATUS_ERROR)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private var observerDeleteKeranjangById: Observer<Result<GeneralResponse>>? = Observer { result ->
+        lifecycleScope.launchWhenStarted {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    when(result){
+                        is Result.Loading -> {
+                            binding.pbLoading.showView()
+                        }
+                        is Result.Success -> {
+                            binding.pbLoading.removeView()
+                            result.message?.let { msg ->
+                                snackbar(binding.root, msg, STATUS_SUCCESS)
+                            } ?: result.data?.message?.let { msg ->
+                                snackbar(binding.root, msg, STATUS_SUCCESS)
+                            }
+                            delay(900)
+                            finish()
+                            startActivity(intent)
                         }
                         is Result.Error -> {
                             binding.pbLoading.removeView()
@@ -138,10 +189,20 @@ class KeranjangActivity : AppCompatActivity() {
                 putString(TRANSAKSI.DESCRIPTION, result.productName)
             }
             binding.btnBayar.setOnClickListenerWithDebounce {
+                if (item.isEmpty()) {
+                    binding.btnBayar.isEnabled = false
+                    return@setOnClickListenerWithDebounce
+                }
                 viewModel.fetchDeleteKeranjang()
                 startActivity(Intent(this, TransaksiActivity::class.java).putExtras(bundle))
             }
         }
+    }
+
+    override fun onBackPressed() {
+        startActivity(Intent(this, HomeActivity::class.java))
+        finishAffinity()
+        super.onBackPressed()
     }
 
     private fun initInstance() {
