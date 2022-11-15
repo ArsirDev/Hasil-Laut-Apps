@@ -69,7 +69,6 @@ fun ImageView.loadImage(imageUrl: String, cacheStrategy: DiskCacheStrategy = Dis
         .load(imageUrl)
         .override(480, 320)
         .timeout(20000)
-        .transition(DrawableTransitionOptions.withCrossFade())
         .diskCacheStrategy(cacheStrategy)
         .error(ContextCompat.getDrawable(this.context, R.drawable.ic_broken_image_black))
         .placeholder(ContextCompat.getDrawable(this.context, R.drawable.ic_image_black))
