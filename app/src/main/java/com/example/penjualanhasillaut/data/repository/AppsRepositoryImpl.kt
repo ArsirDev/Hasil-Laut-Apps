@@ -1,6 +1,5 @@
 package com.example.penjualanhasillaut.data.repository
 
-import android.util.Log
 import com.example.penjualanhasillaut.data.api.ApiInterface
 import com.example.penjualanhasillaut.data.dto.*
 import com.example.penjualanhasillaut.domain.repository.AppsRepository
@@ -8,7 +7,6 @@ import com.example.penjualanhasillaut.utils.FirebaseService
 import com.example.penjualanhasillaut.utils.ResponseHandler
 import com.example.penjualanhasillaut.utils.Result
 import com.example.penjualanhasillaut.utils.SessionManager
-import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -204,13 +202,10 @@ class AppsRepositoryImpl @Inject constructor(
 
     override suspend fun deleteToken() {
         firebaseService.deleteFirebaseToken()
-        GlobalScope.launch {
-            saveToken(" ")
-        }
     }
 
-    override suspend fun saveToken(token: Any): Result<GeneralResponse> = responseHandler.handleResponse {
-        apiService.saveToken(token.toString())
+    override suspend fun saveToken(token: String): Result<GeneralResponse> = responseHandler.handleResponse {
+        apiService.saveToken(token)
     }
 
     override suspend fun pushNotification(token: String, body: String): Result<NotificationResponse> = responseHandler.handleResponse {

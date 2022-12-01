@@ -83,7 +83,7 @@ interface AppsRepository {
 
     suspend fun newToken(token: String)
 
-    suspend fun saveToken(token: Any): Result<GeneralResponse>
+    suspend fun saveToken(token: String): Result<GeneralResponse>
 
     suspend fun getToken(id: Int): Result<GetTokenResponse>
 

@@ -16,7 +16,7 @@ class SoldViewHolder(
             tvBoughtName.text = item.payerName
             tvQty.text = item.totalItem.toString()
             tvPrice.text = item.amount.toString()
-            tvDescription.text = String.format("Product ${item.productName} Telah di beli oleh ${item.payerName}}")
+            tvDescription.text = String.format("Product ${item.productName} Telah di beli oleh ${item.payerName}")
         }
     }
 }

@@ -67,6 +67,6 @@ object TRANSAKSI {
 }
 
 object URL {
-    const val BASE_URL = "https://7c45-180-251-73-28.ap.ngrok.io/"
+    const val BASE_URL = "https://3a82-110-232-81-154.ap.ngrok.io/"
 }
 
