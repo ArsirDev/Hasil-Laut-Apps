@@ -35,5 +35,8 @@ data class DataLogin(
 	val status: String,
 
 	@field:SerializedName("number_phone")
-	val numberPhone: String
+	val numberPhone: String,
+
+	@field:SerializedName("device_token")
+	val deviceToken: String
 )

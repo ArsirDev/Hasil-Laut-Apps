@@ -12,6 +12,7 @@ import com.example.penjualanhasillaut.constant.TRANSAKSI
 import com.example.penjualanhasillaut.databinding.ActivityHomeBinding
 import com.example.penjualanhasillaut.presentation.home.fragment.InputProductFragment
 import com.example.penjualanhasillaut.presentation.home.fragment.ProductFragment
+import com.example.penjualanhasillaut.presentation.home.fragment.ProductSoldFragment
 import com.example.penjualanhasillaut.presentation.home.fragment.ProfileFragment
 import com.example.penjualanhasillaut.utils.SessionManager
 import com.example.penjualanhasillaut.utils.replace
@@ -42,6 +43,7 @@ class HomeActivity : AppCompatActivity() {
 
                 KONSUMEN -> {
                     binding.bottomNav.menu.removeItem(R.id.input_product)
+                    binding.bottomNav.menu.removeItem(R.id.product_terjual)
                     initBottomNavigationComponent()
                 }
             }
@@ -71,6 +73,14 @@ class HomeActivity : AppCompatActivity() {
                         replace(
                             R.id.nav_host_fragment,
                             InputProductFragment(),
+                            addToBackstack = true
+                        )
+                    }
+
+                    R.id.product_terjual -> {
+                        replace(
+                            R.id.nav_host_fragment,
+                            ProductSoldFragment(),
                             addToBackstack = true
                         )
                     }

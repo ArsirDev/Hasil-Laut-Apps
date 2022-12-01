@@ -28,4 +28,8 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun getUsers(): LiveData<Result<AuthLoginResponse>> = _users
+
+    fun deleteToken() = viewModelScope.launch {
+        repository.deleteToken()
+    }
 }

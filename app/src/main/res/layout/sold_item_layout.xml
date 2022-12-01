@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="16dp"
+    app:cardBackgroundColor="@color/dark">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView2"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            app:cardCornerRadius="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/ivProduct"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop" />
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/tv_product"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="Nama Barang"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/cardView2"
+            app:layout_constraintTop_toTopOf="@+id/cardView2" />
+
+        <ImageView
+            android:id="@+id/iv_store"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toEndOf="@+id/cardView2"
+            app:layout_constraintTop_toBottomOf="@+id/tv_product"
+            app:srcCompat="@drawable/ic_store" />
+
+        <TextView
+            android:id="@+id/tv_seller_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:text="Nama Penjual"
+            android:textSize="12sp"
+            android:layout_marginStart="8dp"
+            android:textColor="@color/textColorGrey"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_store"
+            app:layout_constraintStart_toEndOf="@+id/iv_store"
+            app:layout_constraintTop_toTopOf="@+id/iv_store" />
+
+        <ImageView
+            android:id="@+id/iv_person"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toEndOf="@+id/cardView2"
+            app:layout_constraintTop_toBottomOf="@+id/iv_store"
+            app:srcCompat="@drawable/ic_person" />
+
+        <TextView
+            android:id="@+id/tv_bought_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/roboto"
+            android:text="Nama Pembeli"
+            android:textColor="@color/textColorGrey"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_person"
+            app:layout_constraintStart_toEndOf="@+id/iv_store"
+            app:layout_constraintTop_toTopOf="@+id/iv_person" />
+
+        <View
+            android:id="@+id/view6"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:alpha="0.2"
+            android:background="@color/textColorGrey"
+            app:layout_constraintStart_toStartOf="@+id/cardView2"
+            app:layout_constraintTop_toBottomOf="@+id/cardView2" />
+
+        <ImageView
+            android:id="@+id/iv_qty"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view6"
+            app:srcCompat="@drawable/ic_piece" />
+
+        <TextView
+            android:id="@+id/tv_qty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:text="0"
+            android:layout_marginStart="8dp"
+            android:textColor="@color/textColorGrey"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_qty"
+            app:layout_constraintStart_toEndOf="@+id/iv_qty"
+            app:layout_constraintTop_toTopOf="@+id/iv_qty" />
+
+        <ImageView
+            android:id="@+id/iv_price"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_qty"
+            app:srcCompat="@drawable/ic_price" />
+
+        <TextView
+            android:id="@+id/tv_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:text="12.0000"
+            android:layout_marginStart="8dp"
+            android:textColor="@color/textColorGrey"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_price"
+            app:layout_constraintStart_toEndOf="@+id/iv_price"
+            app:layout_constraintTop_toTopOf="@+id/iv_price" />
+
+        <TextView
+            android:id="@+id/tv_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto"
+            android:text="Product Baju Telah di beli oleh Person"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/textColorGrey"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@+id/iv_price"
+            app:layout_constraintTop_toBottomOf="@+id/iv_price" />
+
+        <ImageView
+            android:id="@+id/iv_delete"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_delete"
+            app:tint="@color/white" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

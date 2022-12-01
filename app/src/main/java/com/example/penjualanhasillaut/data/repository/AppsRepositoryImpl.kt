@@ -1,17 +1,16 @@
 package com.example.penjualanhasillaut.data.repository
 
+import android.util.Log
 import com.example.penjualanhasillaut.data.api.ApiInterface
-import com.example.penjualanhasillaut.data.dto.AuthLoginResponse
-import com.example.penjualanhasillaut.data.dto.AuthRegisterResponse
-import com.example.penjualanhasillaut.data.dto.DetailResponse
-import com.example.penjualanhasillaut.data.dto.GeneralResponse
-import com.example.penjualanhasillaut.data.dto.GetKeranjangResponse
-import com.example.penjualanhasillaut.data.dto.InputResponse
-import com.example.penjualanhasillaut.data.dto.InvoiceResponse
-import com.example.penjualanhasillaut.data.local.KeranjangDao
+import com.example.penjualanhasillaut.data.dto.*
 import com.example.penjualanhasillaut.domain.repository.AppsRepository
+import com.example.penjualanhasillaut.utils.FirebaseService
 import com.example.penjualanhasillaut.utils.ResponseHandler
 import com.example.penjualanhasillaut.utils.Result
+import com.example.penjualanhasillaut.utils.SessionManager
+import com.google.firebase.messaging.FirebaseMessaging
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -21,12 +20,33 @@ import javax.inject.Inject
 
 class AppsRepositoryImpl @Inject constructor(
     private val apiService: ApiInterface,
-    private val responseHandler: ResponseHandler
+    private val responseHandler: ResponseHandler,
+    private val firebaseService: FirebaseService,
+    private val sessionManager: SessionManager
 ) : AppsRepository {
 
     override suspend fun getLogin(email: String, password: String) =
         responseHandler.handleResponse {
-            apiService.getLogin(email, password)
+            apiService.getLogin(email, password).also { response ->
+                response.body()?.dataLogin?.let { data ->
+                    with(data){
+                        sessionManager.createAuthSession(
+                            id,
+                            name,
+                            this.email,
+                            address,
+                            status,
+                            numberPhone,
+                            token
+                        )
+                    }
+                firebaseService.fireBaseToken().addOnCompleteListener { task->
+                       GlobalScope.launch {
+                           saveToken(task.result)
+                       }
+                   }
+                }
+            }
         }
 
     override suspend fun getRegister(
@@ -99,6 +119,7 @@ class AppsRepositoryImpl @Inject constructor(
         owner_product: String,
         amount: Int,
         qty: Int,
+        total_item: Int,
         image: String,
         description: String
     ): Result<InvoiceResponse> = responseHandler.handleResponse {
@@ -111,9 +132,18 @@ class AppsRepositoryImpl @Inject constructor(
             owner_product,
             amount,
             qty,
+            total_item,
             image,
             description,
         )
+    }
+
+    override suspend fun getAllTransaksiById(): Result<TransaksiResponse> = responseHandler.handleResponse {
+        apiService.getAllTransaksiById()
+    }
+
+    override suspend fun deleteTransaksi(id: Int): Result<GeneralResponse> = responseHandler.handleResponse {
+        apiService.deleteTransaksi(id)
     }
 
     override suspend fun setKeranjang(
@@ -152,5 +182,38 @@ class AppsRepositoryImpl @Inject constructor(
 
     override suspend fun deleteKeranjang(): Result<GeneralResponse> = responseHandler.handleResponse {
         apiService.deleteKeranjang()
+    }
+
+    override suspend fun updateToken() {
+        firebaseService.fireBaseToken().addOnCompleteListener { task ->
+            if (task.isSuccessful){
+                GlobalScope.launch {
+                    saveToken(task.result)
+                }
+            }
+        }
+    }
+
+    override suspend fun newToken(token: String) {
+        saveToken(token)
+    }
+
+    override suspend fun getToken(id: Int): Result<GetTokenResponse> = responseHandler.handleResponse {
+        apiService.getToken(id)
+    }
+
+    override suspend fun deleteToken() {
+        firebaseService.deleteFirebaseToken()
+        GlobalScope.launch {
+            saveToken(" ")
+        }
+    }
+
+    override suspend fun saveToken(token: Any): Result<GeneralResponse> = responseHandler.handleResponse {
+        apiService.saveToken(token.toString())
+    }
+
+    override suspend fun pushNotification(token: String, body: String): Result<NotificationResponse> = responseHandler.handleResponse {
+        apiService.pushNotification(token, body)
     }
 }

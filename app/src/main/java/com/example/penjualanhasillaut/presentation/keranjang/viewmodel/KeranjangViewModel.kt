@@ -81,4 +81,8 @@ class KeranjangViewModel @Inject constructor(
     }
 
     fun getDeleteKeranjangById(): LiveData<Result<GeneralResponse>> = _deleteKeranjangById
+
+    fun sendPushNotification(token: String, body: String) = viewModelScope.launch {
+        repository.pushNotification(token, body)
+    }
 }

@@ -3,6 +3,7 @@ package com.example.penjualanhasillaut.presentation.keranjang.activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -24,13 +25,7 @@ import com.example.penjualanhasillaut.presentation.home.activity.HomeActivity
 import com.example.penjualanhasillaut.presentation.keranjang.adapter.KeranjangAdapter
 import com.example.penjualanhasillaut.presentation.keranjang.viewmodel.KeranjangViewModel
 import com.example.penjualanhasillaut.presentation.transaksi.activity.TransaksiActivity
-import com.example.penjualanhasillaut.utils.GridCardMargin
-import com.example.penjualanhasillaut.utils.Result
-import com.example.penjualanhasillaut.utils.formatCurrency
-import com.example.penjualanhasillaut.utils.removeView
-import com.example.penjualanhasillaut.utils.setOnClickListenerWithDebounce
-import com.example.penjualanhasillaut.utils.showView
-import com.example.penjualanhasillaut.utils.snackbar
+import com.example.penjualanhasillaut.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -45,6 +40,8 @@ class KeranjangActivity : AppCompatActivity() {
     private val viewModel: KeranjangViewModel by viewModels()
 
     private lateinit var keranjangAdapter: KeranjangAdapter
+
+    private lateinit var sessionManager: SessionManager
 
     private val amountItem = mutableListOf<Int>()
 
@@ -185,8 +182,9 @@ class KeranjangActivity : AppCompatActivity() {
                 putString(TRANSAKSI.OWNERPRODUCT, result.ownerProduct)
                 putInt(TRANSAKSI.AMONT, amountItem.sum().toString().toInt())
                 putInt(TRANSAKSI.QTY, item.size)
+                putInt(TRANSAKSI.TOTAL_ITEM, result.qty.toInt())
                 putString(TRANSAKSI.IMAGE, result.image)
-                putString(TRANSAKSI.DESCRIPTION, result.productName)
+                putString(TRANSAKSI.DESCRIPTION, result.description)
             }
             binding.btnBayar.setOnClickListenerWithDebounce {
                 if (item.isEmpty()) {
@@ -194,11 +192,13 @@ class KeranjangActivity : AppCompatActivity() {
                     return@setOnClickListenerWithDebounce
                 }
                 viewModel.fetchDeleteKeranjang()
+                viewModel.sendPushNotification(sessionManager.seller_device_token ?: "", "${result.productName} telah dibelih oleh ${result.payerName}")
                 startActivity(Intent(this, TransaksiActivity::class.java).putExtras(bundle))
             }
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         startActivity(Intent(this, HomeActivity::class.java))
         finishAffinity()
@@ -208,6 +208,7 @@ class KeranjangActivity : AppCompatActivity() {
     private fun initInstance() {
         _binding = ActivityKeranjangBinding.inflate(layoutInflater)
         keranjangAdapter = KeranjangAdapter.instance()
+        sessionManager = SessionManager(this)
     }
 
     override fun onDestroy() {

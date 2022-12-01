@@ -54,6 +54,7 @@ class TransaksiActivity : AppCompatActivity() {
         val owner = intent.getStringExtra(TRANSAKSI.OWNERPRODUCT)
         val amount = intent.getIntExtra(TRANSAKSI.AMONT, 0)
         val qty = intent.getIntExtra(TRANSAKSI.QTY, 0)
+        val total_item = intent.getIntExtra(TRANSAKSI.TOTAL_ITEM, 0)
         val image = intent.getStringExtra(TRANSAKSI.IMAGE)
         val descrip = intent.getStringExtra(TRANSAKSI.DESCRIPTION)
 
@@ -66,6 +67,7 @@ class TransaksiActivity : AppCompatActivity() {
             owner.toString().removeQuote(),
             amount,
             qty,
+            total_item,
             image.toString().removeQuote(),
             descrip.toString().removeQuote(),
         )

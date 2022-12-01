@@ -26,6 +26,7 @@ import com.example.penjualanhasillaut.constant.TRANSAKSI.USERID
 import com.example.penjualanhasillaut.data.dto.DataDetail
 import com.example.penjualanhasillaut.data.dto.DetailResponse
 import com.example.penjualanhasillaut.data.dto.GeneralResponse
+import com.example.penjualanhasillaut.data.dto.GetTokenResponse
 import com.example.penjualanhasillaut.databinding.ActivityDetailBinding
 import com.example.penjualanhasillaut.presentation.detail.viewmodel.DetailViewModel
 import com.example.penjualanhasillaut.presentation.home.activity.HomeActivity
@@ -84,6 +85,10 @@ class DetailActivity : AppCompatActivity() {
         observerSetKeranjang?.let {
             keranjangViewModel.setKeranjang().observe(this, it)
         }
+
+        observerGetToken?.let {
+            viewModel.getToken().observe(this, it)
+        }
     }
 
     private var observerDetailResult: Observer<Result<DetailResponse>>? = Observer { result ->
@@ -97,6 +102,7 @@ class DetailActivity : AppCompatActivity() {
                         is Result.Success -> {
                             binding.pbLoading.removeView()
                             result.data?.dataDetail?.let { data ->
+                                viewModel.fetchGetToken(data.userId.toInt())
                                 with(binding) {
                                     ivImage.loadImage(data.image)
                                     conditionType(data.type)
@@ -146,6 +152,30 @@ class DetailActivity : AppCompatActivity() {
                         is Result.Success -> {
                             binding.pbLoading.removeView()
                             startActivity(Intent(this@DetailActivity, HomeActivity::class.java))
+                        }
+                        is Result.Error -> {
+                            binding.pbLoading.removeView()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private var observerGetToken: Observer<Result<GetTokenResponse>>? = Observer { result ->
+        lifecycleScope.launchWhenStarted {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED){
+                launch {
+                    when(result) {
+                        is Result.Loading -> {
+                            binding.pbLoading.showView()
+                        }
+                        is Result.Success -> {
+                            binding.pbLoading.removeView()
+                            result.data?.data?.deviceToken?.let { token ->
+                                Log.e("TAG", "token Penjual: $token", )
+                                sessionManager.setSellerDeviceToken(token.toString())
+                            }
                         }
                         is Result.Error -> {
                             binding.pbLoading.removeView()

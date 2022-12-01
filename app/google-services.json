@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "369025541933",
+    "project_id": "hasil-laut-af899",
+    "storage_bucket": "hasil-laut-af899.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:369025541933:android:93cc7325761d88664c15a4",
+        "android_client_info": {
+          "package_name": "com.example.penjualanhasillaut"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "369025541933-te30hkhn56dgkiu9l8rkeempnibtc50i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.penjualanhasillaut",
+            "certificate_hash": "bb0e95520724fa8f0426e38509ec191b1412b9b2"
+          }
+        },
+        {
+          "client_id": "369025541933-8bl6cdi1ie7b1j3p72h5p7qj4f4irnc7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAqRm_AuMreNHufjuSH0OyQ4Ggq2tgj54"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "369025541933-8bl6cdi1ie7b1j3p72h5p7qj4f4irnc7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

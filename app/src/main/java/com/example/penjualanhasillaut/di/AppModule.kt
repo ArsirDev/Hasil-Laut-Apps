@@ -1,14 +1,12 @@
 package com.example.penjualanhasillaut.di
 
-import android.app.Application
 import android.content.Context
-import androidx.room.Room
-import com.example.penjualanhasillaut.BuildConfig
 import com.example.penjualanhasillaut.constant.AUTH.AUTH_HEADER
+import com.example.penjualanhasillaut.constant.URL.BASE_URL
 import com.example.penjualanhasillaut.data.api.ApiInterface
-import com.example.penjualanhasillaut.data.local.KeranjangDatabase
 import com.example.penjualanhasillaut.data.repository.AppsRepositoryImpl
 import com.example.penjualanhasillaut.domain.repository.AppsRepository
+import com.example.penjualanhasillaut.utils.FirebaseService
 import com.example.penjualanhasillaut.utils.ResponseHandler
 import com.example.penjualanhasillaut.utils.SessionManager
 import com.example.penjualanhasillaut.utils.at
@@ -57,7 +55,7 @@ object AppModule {
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
-            .baseUrl(BuildConfig.BASE_URL)
+            .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()
@@ -69,8 +67,12 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideRepository(apiInterface: ApiInterface, responseHandler: ResponseHandler): AppsRepository {
-        return AppsRepositoryImpl(apiInterface, responseHandler)
+    fun provideFirebaseService(): FirebaseService = FirebaseService
+
+    @Provides
+    @Singleton
+    fun provideRepository(apiInterface: ApiInterface, responseHandler: ResponseHandler, firebaseService: FirebaseService, sessionManager: SessionManager): AppsRepository {
+        return AppsRepositoryImpl(apiInterface, responseHandler, firebaseService, sessionManager)
     }
 
     @Provides

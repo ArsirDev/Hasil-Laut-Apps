@@ -27,6 +27,7 @@ class TransaksiViewModel @Inject constructor(
         owner_product: String,
         amount: Int,
         qty: Int,
+        total_item: Int,
         image: String,
         description: String
     ) = viewModelScope.launch {
@@ -41,6 +42,7 @@ class TransaksiViewModel @Inject constructor(
             owner_product,
             amount,
             qty,
+            total_item,
             image,
             description
         )

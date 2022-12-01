@@ -8,10 +8,15 @@ object EndPoint {
     const val DETAIL = "api/detail"
     const val USERS = "api/profil"
     const val TRANSAKSI = "api/transaksi"
+    const val GET_TRANSAKSI = "api/get-transaksi"
+    const val DELETE_TRANSAKSI = "api/delete-transaksi"
     const val SET_KERANJANG = "api/set-cart"
     const val GET_KERANJANG = "api/get-cart"
     const val DELETE_KERANJANG_BY_ID = "api/delete-item-cart"
     const val DELETE_KERANJANG = "api/delete-cart"
+    const val SAVE_TOKEN = "api/save-token"
+    const val GET_TOKEN = "api/get-token"
+    const val PUSH_NOTIFICATION = "api/send-notification"
 }
 
 object AUTH {
@@ -31,6 +36,8 @@ object SESSION {
     const val STATUS = "STATUS"
     const val NUMBER_PHONE = "NUMBER_PHONE"
     const val ACCESS_TOKEN = "ACCESS_TOKEN"
+    const val DEVICE_TOKEN = "DEVICE_TOKEN"
+    const val SELLER_DEVICE_TOKEN = "SELLER_DEVICE_TOKEN"
     const val DATA_LOGIN = "DATA_LOGIN"
 
 }
@@ -54,7 +61,12 @@ object TRANSAKSI {
     const val OWNERPRODUCT = "owner_product"
     const val AMONT = "amount"
     const val QTY = "qty"
+    const val TOTAL_ITEM = "total_item"
     const val IMAGE = "image"
     const val DESCRIPTION = "description"
+}
+
+object URL {
+    const val BASE_URL = "https://7c45-180-251-73-28.ap.ngrok.io/"
 }
 

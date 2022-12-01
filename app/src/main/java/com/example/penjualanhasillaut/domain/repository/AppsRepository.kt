@@ -1,13 +1,6 @@
 package com.example.penjualanhasillaut.domain.repository
 
-import com.example.penjualanhasillaut.data.dto.AuthLoginResponse
-import com.example.penjualanhasillaut.data.dto.AuthRegisterResponse
-import com.example.penjualanhasillaut.data.dto.DetailResponse
-import com.example.penjualanhasillaut.data.dto.GeneralResponse
-import com.example.penjualanhasillaut.data.dto.GetKeranjangResponse
-import com.example.penjualanhasillaut.data.dto.InputResponse
-import com.example.penjualanhasillaut.data.dto.InvoiceResponse
-import com.example.penjualanhasillaut.data.dto.SearchResponse
+import com.example.penjualanhasillaut.data.dto.*
 import com.example.penjualanhasillaut.domain.model.Keranjang
 import com.example.penjualanhasillaut.utils.Result
 import kotlinx.coroutines.flow.Flow
@@ -58,9 +51,14 @@ interface AppsRepository {
         owner_product: String,
         amount: Int,
         qty: Int,
+        total_item: Int,
         image: String,
         description: String
     ): Result<InvoiceResponse>
+
+    suspend fun getAllTransaksiById(): Result<TransaksiResponse>
+
+    suspend fun deleteTransaksi(id: Int): Result<GeneralResponse>
 
     suspend fun setKeranjang(
         id_product: Int,
@@ -80,5 +78,17 @@ interface AppsRepository {
     suspend fun deleteKeranjangById(id: Int): Result<GeneralResponse>
 
     suspend fun deleteKeranjang(): Result<GeneralResponse>
+
+    suspend fun updateToken()
+
+    suspend fun newToken(token: String)
+
+    suspend fun saveToken(token: Any): Result<GeneralResponse>
+
+    suspend fun getToken(id: Int): Result<GetTokenResponse>
+
+    suspend fun deleteToken()
+
+    suspend fun pushNotification(token: String, body: String): Result<NotificationResponse>
 
 }

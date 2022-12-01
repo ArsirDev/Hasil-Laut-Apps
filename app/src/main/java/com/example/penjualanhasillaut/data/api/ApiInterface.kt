@@ -2,23 +2,21 @@ package com.example.penjualanhasillaut.data.api
 
 import com.example.penjualanhasillaut.constant.EndPoint.DELETE_KERANJANG
 import com.example.penjualanhasillaut.constant.EndPoint.DELETE_KERANJANG_BY_ID
+import com.example.penjualanhasillaut.constant.EndPoint.DELETE_TRANSAKSI
 import com.example.penjualanhasillaut.constant.EndPoint.DETAIL
 import com.example.penjualanhasillaut.constant.EndPoint.GET_KERANJANG
+import com.example.penjualanhasillaut.constant.EndPoint.GET_TOKEN
+import com.example.penjualanhasillaut.constant.EndPoint.GET_TRANSAKSI
 import com.example.penjualanhasillaut.constant.EndPoint.INPUT
 import com.example.penjualanhasillaut.constant.EndPoint.LOGIN
+import com.example.penjualanhasillaut.constant.EndPoint.PUSH_NOTIFICATION
 import com.example.penjualanhasillaut.constant.EndPoint.REGISTER
+import com.example.penjualanhasillaut.constant.EndPoint.SAVE_TOKEN
 import com.example.penjualanhasillaut.constant.EndPoint.SEARCH
 import com.example.penjualanhasillaut.constant.EndPoint.SET_KERANJANG
 import com.example.penjualanhasillaut.constant.EndPoint.TRANSAKSI
 import com.example.penjualanhasillaut.constant.EndPoint.USERS
-import com.example.penjualanhasillaut.data.dto.AuthLoginResponse
-import com.example.penjualanhasillaut.data.dto.AuthRegisterResponse
-import com.example.penjualanhasillaut.data.dto.DetailResponse
-import com.example.penjualanhasillaut.data.dto.GeneralResponse
-import com.example.penjualanhasillaut.data.dto.GetKeranjangResponse
-import com.example.penjualanhasillaut.data.dto.InputResponse
-import com.example.penjualanhasillaut.data.dto.InvoiceResponse
-import com.example.penjualanhasillaut.data.dto.SearchResponse
+import com.example.penjualanhasillaut.data.dto.*
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
@@ -88,9 +86,18 @@ interface ApiInterface {
         @Field("owner_product") owner_product: String,
         @Field("amount") amount: Int,
         @Field("qty") qty: Int,
+        @Field("total_item") total_item: Int,
         @Field("image") image: String,
         @Field("description") description: String
     ): Response<InvoiceResponse>
+
+    @GET(GET_TRANSAKSI)
+    suspend fun getAllTransaksiById(): Response<TransaksiResponse>
+
+    @GET(DELETE_TRANSAKSI)
+    suspend fun deleteTransaksi(
+        @Query("id") id: Int
+    ): Response<GeneralResponse>
 
     @FormUrlEncoded
     @POST(SET_KERANJANG)
@@ -117,4 +124,21 @@ interface ApiInterface {
 
     @GET(DELETE_KERANJANG)
     suspend fun deleteKeranjang(): Response<GeneralResponse>
+
+    @POST(SAVE_TOKEN)
+    suspend fun saveToken(
+        @Query("device_token") token: String
+    ): Response<GeneralResponse>
+
+    @GET(GET_TOKEN)
+    suspend fun getToken(
+        @Query("id") id: Int
+    ): Response<GetTokenResponse>
+
+
+    @POST(PUSH_NOTIFICATION)
+    suspend fun pushNotification(
+        @Query("device_token") device_token: String,
+        @Query("body") body: String,
+    ): Response<NotificationResponse>
 }

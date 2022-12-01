@@ -47,6 +47,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
     private fun initView() {
         binding.ivLogout.setOnClickListener {
             sessionManager.logout()
+            viewModel.deleteToken()
             startActivity(Intent(requireContext(), StartActivity::class.java))
             requireActivity().finishAffinity()
         }

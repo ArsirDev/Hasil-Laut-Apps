@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
@@ -43,12 +45,25 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var sessionManager: SessionManager
 
+    private var permissionRequest: ActivityResultLauncher<String>? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         initInstance()
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         initLaunch()
         initView()
+        initPermission()
+        launchPermission()
+    }
+
+    private fun launchPermission() {
+        permissionRequest?.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+    }
+
+    private fun initPermission() {
+        permissionRequest = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+        }
     }
 
     private fun initLaunch() {
@@ -67,17 +82,7 @@ class LoginActivity : AppCompatActivity() {
                         }
                         is Result.Success -> {
                             binding.pbLoading.removeView()
-                            result.data?.dataLogin?.let { data ->
-                                val id = data.id
-                                val name = data.name
-                                val email = data.email
-                                val address = data.address
-                                val status = data.status
-                                val numberPhone = data.numberPhone
-                                val token = data.token
-                                sessionManager.createAuthSession(id, name, email, address, status, numberPhone, token)
-                                toHome(data)
-                            }
+                            toHome()
                         }
                         is Result.Error -> {
                             binding.pbLoading.removeView()
@@ -91,7 +96,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun toHome(data: DataLogin) {
+    private fun toHome() {
         startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
         finishAffinity()
     }

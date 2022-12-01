@@ -2,10 +2,10 @@ package com.example.penjualanhasillaut.data.dto
 
 import com.google.gson.annotations.SerializedName
 
-data class GetKeranjangResponse(
+data class TransaksiResponse(
 
 	@field:SerializedName("data")
-	val dataGetKeranjangItem: List<DataGetKeranjangItem>,
+	val data: List<DataTransaksiItem>,
 
 	@field:SerializedName("success")
 	val success: Boolean,
@@ -14,19 +14,28 @@ data class GetKeranjangResponse(
 	val message: String
 )
 
-data class DataGetKeranjangItem(
+data class DataTransaksiItem(
+
+	@field:SerializedName("total_item")
+	val totalItem: Int,
 
 	@field:SerializedName("image")
 	val image: String,
 
 	@field:SerializedName("amount")
-	var amount: String,
+	val amount: Int,
 
 	@field:SerializedName("address")
 	val address: String,
 
+	@field:SerializedName("description")
+	val description: String,
+
 	@field:SerializedName("created_at")
 	val createdAt: Any,
+
+	@field:SerializedName("external_id")
+	val externalId: String,
 
 	@field:SerializedName("product_name")
 	val productName: String,
@@ -41,7 +50,7 @@ data class DataGetKeranjangItem(
 	val userId: String,
 
 	@field:SerializedName("qty")
-	val qty: String,
+	val qty: Int,
 
 	@field:SerializedName("owner_product")
 	val ownerProduct: String,
@@ -53,8 +62,5 @@ data class DataGetKeranjangItem(
 	val payerName: String,
 
 	@field:SerializedName("email")
-	val email: String,
-
-	@field:SerializedName("description")
-	val description: String
+	val email: String
 )
